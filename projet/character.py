@@ -25,7 +25,7 @@ class Character:
         self.hp += amount
 
     def show_healthbar(self):
-        print(f"[{"o" * self.hp}{" " * (self.hp_max - self.hp)}] {self.hp}/{self.hp_max}hp")
+        print(f"[{'o' * self.hp}{' ' * (self.hp_max - self.hp)}] {self.hp}/{self.hp_max}hp")
 
     def attack(self):
         a_dice = Dice("red", 6)
