@@ -42,4 +42,9 @@ class Character:
 
 char1 = Character("James", 20, 8, 3)
 char2 = Character("Lisa", 20, 8, 3)
+# print(char1)
 
+dmg = char2.attack()
+dmg = char2.defense(dmg)
+char2.decrease_hp(dmg)
+char2.show_healthbar()
