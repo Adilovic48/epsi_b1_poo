@@ -20,6 +20,11 @@ class Dice:
         return random.randint(1, self.faces)
 
 
+class RiggedDice(Dice):
+    def roll(self):
+        return self.faces
+
+
 # a_dice = Dice("blue", 6)
 # print(a_dice.roll())
 
