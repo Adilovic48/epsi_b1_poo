@@ -1,4 +1,5 @@
 from dice import Dice
+from rich import print
 
 # SOLID
 # S
@@ -34,7 +35,7 @@ class Character:
 
     def show_healthbar(self):
         print(
-            f"[{'o' * self.hp}{' ' * (self.hp_max - self.hp)}] {self.hp}/{self.hp_max}hp"
+            f"[{'♥' * self.hp}{'♡' * (self.hp_max - self.hp)}] {self.hp}/{self.hp_max}hp"
         )
 
     def compute_damages(self, roll, target):
@@ -45,7 +46,7 @@ class Character:
             roll = self.dice.roll()
             damages = self.compute_damages(roll, target)
             print(
-                f"{self.name} attack with {damages} (att: {self.attack_value} + roll: {roll})"
+                f"{self.name} [red]attack[/red] with {damages} (att: {self.attack_value} + roll: {roll})"
             )
             target.defense(damages, self)
 
@@ -56,26 +57,26 @@ class Character:
         roll = self.dice.roll()
         raw_damages = self.compute_raw_damages(damages, roll, attacker)
         print(
-            f"{self.name} defend againt {damages} and took {raw_damages} damages ({damages} - def: {self.defense_value} - roll: {roll})"
+            f"{self.name} [blue]defend[/blue] againt {damages} and took {raw_damages} damages ({damages} - def: {self.defense_value} - roll: {roll})"
         )
         self.decrease_hp(raw_damages)
 
 
 class Warrior(Character):
     def compute_damages(self, roll, target):
-        print("Axe in your face ! (+3 dmg)")
+        print("🪓 Axe in your face ! (+3 dmg)")
         return super().compute_damages(roll, target) + 3
 
 
 class Mage(Character):
     def compute_raw_damages(self, damages, roll, attacker):
-        print(f"Magic armor ! (-3 dmg)")
+        print(f"🔮 Magic armor ! (-3 dmg)")
         return super().compute_raw_damages(damages, roll, attacker) - 3
 
 
 class Thief(Character):
     def compute_damages(self, roll, target):
-        print(f"Sneacky attack ! (+{target.defense_value} dmg)")
+        print(f"🔪 Sneacky attack ! (+{target.defense_value} dmg)")
         return super().compute_damages(roll, target) + target.defense_value
 
 

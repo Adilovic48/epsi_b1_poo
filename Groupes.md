@@ -5,19 +5,17 @@ Groupe 01
 - Mouhamadou
 
 Groupe 02
-- Ma2t
-- Rafou
-- Samuel
-- Ethan ?
-
-Groupe 03
 - Paolo
 - Shaïna
 - Col1
 - Sacha
 
-Groupe 04
+Groupe 03
 - Yannis
 - Adil
-- ???
-- ???
+- Samuel
+- Ethan
+
+Groupe 04
+- Ma2t
+- Rafou
