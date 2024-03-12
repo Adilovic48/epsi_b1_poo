@@ -1,8 +1,8 @@
 from dice import Dice
 
 # SOLID
-    # S
-    # D
+# S
+# D
 
 
 class Character:
@@ -37,21 +37,24 @@ class Character:
             f"[{'o' * self.hp}{' ' * (self.hp_max - self.hp)}] {self.hp}/{self.hp_max}hp"
         )
 
-    def compute_damages(self):
-        return self.attack_value + self.dice.roll()
+    def compute_damages(self, roll, target):
+        return self.attack_value + roll
 
     def attack(self, target):
         if self.is_alive():
-            damages = self.compute_damages()
+            roll = self.dice.roll()
+            damages = self.compute_damages(roll, target)
             print(
-                f"{self.name} attack with {damages} (att: {self.attack_value} + roll: {damages - self.attack_value})"
+                f"{self.name} attack with {damages} (att: {self.attack_value} + roll: {roll})"
             )
-            target.defense(damages)
+            target.defense(damages, self)
 
-    def defense(self, damages):
-        print(f"damages: {damages}")
+    def compute_raw_damages(self, damages, roll, attacker):
+        return damages - self.defense_value - roll
+
+    def defense(self, damages, attacker):
         roll = self.dice.roll()
-        raw_damages = damages - self.defense_value - roll
+        raw_damages = self.compute_raw_damages(damages, roll, attacker)
         print(
             f"{self.name} defend againt {damages} and took {raw_damages} damages ({damages} - def: {self.defense_value} - roll: {roll})"
         )
@@ -59,17 +62,25 @@ class Character:
 
 
 class Warrior(Character):
+    def compute_damages(self, roll, target):
+        print("Axe in your face ! (+3 dmg)")
+        return super().compute_damages(roll, target) + 3
 
-    def compute_damages(self):
-        return super().compute_damages() + 3
-    
+
 class Mage(Character):
-    # Bonus de +3 à la défense
-    pass
+    def compute_raw_damages(self, damages, roll, attacker):
+        print(f"Magic armor ! (-3 dmg)")
+        return super().compute_raw_damages(damages, roll, attacker) - 3
 
 
-char1 = Warrior("James", 20, 8, 3, Dice("red", 6))
-char2 = Warrior("Lisa", 20, 8, 3, Dice("blue", 6))
+class Thief(Character):
+    def compute_damages(self, roll, target):
+        print(f"Sneacky attack ! (+{target.defense_value} dmg)")
+        return super().compute_damages(roll, target) + target.defense_value
+
+
+char1 = Warrior("James", 20, 8, 4, Dice("red", 6))
+char2 = Thief("Lisa", 20, 8, 3, Dice("blue", 6))
 
 while char1.is_alive() and char2.is_alive():
     char1.attack(char2)
